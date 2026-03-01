@@ -1,7 +1,7 @@
 {
-  "name": "job-application-tracker-api",
+  "name": "smart-queue-management-system",
   "version": "1.0.0",
-  "description": "This is a RESTful backend service designed to help users efficiently manage and track their job application process,",
+  "description": "This is a RESTful backend service designed to help users to join queues remotely, to track their positions, to manage and call the next ticket....",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ayofital/job-application-tracker-API.git"
+    "url": "git+.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ayofital/job-application-tracker-API/issues"
+    "url": "https://github.com/ayofital/Smart-Queue-Management-System-Backend-API/issues"
   },
-  "homepage": "https://github.com/ayofital/job-application-tracker-API#readme",
+  "homepage": "https://github.com/ayofital/Smart-Queue-Management-System-Backend-API#readme",
   "dependencies": {
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
