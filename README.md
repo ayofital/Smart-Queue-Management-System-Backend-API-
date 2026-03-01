@@ -1,2 +1,2 @@
-# job-application-tracker-API
-This is a RESTful backend service designed to help users efficiently manage and track their job application process,
+# Smart-Queue-Management-System(Backend API)
+This is a RESTful backend service designed to help users to join queues remotely, to track their positions, to manage and call the next ticket....
