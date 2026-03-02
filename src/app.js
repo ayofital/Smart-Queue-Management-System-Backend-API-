@@ -2,6 +2,7 @@ import express, { json, urlencoded } from "express";
 import routes from "./routes/index.js";
 import errorHandler from "./middleware/error.middleware.js";
 import notFoundHandler from "./middleware/notFound.js";
+import auth_router from "./routes/auth.route.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(urlencoded({ extended: true }))
 Routes Handlers
 ============== */
 app.use("/", routes);
+app.use("/auth/", auth_router)
 
 /* =======================
 Error Handling Middleware
