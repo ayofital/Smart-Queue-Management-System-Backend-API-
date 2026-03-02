@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     reguired: true,
     unique: true,
-    trum: true,
+    trim: true,
     lowercase: true,
     index: true
   },
