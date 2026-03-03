@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const queueSchema = new mongoose.Schema({
   branch:{
     type: mongoose.Schema.Types.ObjectId,
