@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export const validateRegistration = [
-  body("name").trim().notEmpty().withMessage("Nmame is required."),
+  body("name").trim().notEmpty().withMessage("Name is required."),
   body("email")
     .trim()
     .notEmpty()
@@ -13,11 +13,11 @@ export const validateRegistration = [
     .withMessage("Password is required.")
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters long."),
-  body("role")
-    .notEmpty()
-    .withMessage("Role is required.")
-    .isIn(["customer", "admin", "staff"])
-    .withMessage("Role must be either 'customer', 'admin', or 'staff'."),
+  // body("role")
+  //   .notEmpty()
+  //   .withMessage("Role is required.")
+  //   .isIn(["customer", "admin", "staff"])
+  //   .withMessage("Role must be either 'customer', 'admin', or 'staff'."),
   body("branch")
     .if(body("role").equals("staff"))
     .notEmpty()

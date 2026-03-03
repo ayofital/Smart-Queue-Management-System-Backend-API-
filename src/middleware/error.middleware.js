@@ -7,7 +7,8 @@ const errorHandler = (err, req, res, next) => {
   // Duplicate Key Error
   if (err.code === 11000) {
     statusCode = 400;
-    const field = Object.keys(err.keyValue[0]);
+    // console.log(err.keyValue);
+    const field = Object.values(err.keyValue)[0];
     message = `${field} already exists.`;
   }
 

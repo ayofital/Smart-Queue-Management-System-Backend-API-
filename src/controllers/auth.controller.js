@@ -2,16 +2,15 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-
 // user registration
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
 
-    
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+    // Express validator validates inputs
+    // if (!name || !email || !password) {
+    //   return res.status(400).json({ message: "All fields are required" });
+    // }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -19,14 +18,11 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create user document
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
       role,
     });
 
@@ -34,7 +30,7 @@ export const registerUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" } // token valid for 1 day
+      { expiresIn: "1d" }, // token valid for 1 day
     );
 
     // return response without exposing password
@@ -49,13 +45,12 @@ export const registerUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 
 // lOGIN USER
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -71,7 +66,7 @@ export const loginUser = async (req, res) => {
     }
 
     // compare password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password); // comparePassword is a method defined in the userSchema
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -80,7 +75,7 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: process.env.JWT_EXPIRES_IN },
     );
 
     // return response
@@ -95,7 +90,6 @@ export const loginUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
