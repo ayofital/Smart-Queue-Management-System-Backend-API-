@@ -1,8 +1,9 @@
-import { Router } from "express"
+import { Router } from "express";
 
-const router = Router()
+const router = Router();
+
 router.get("/health", (req, res) => {
-    res.join({ok: true})
-})
+  res.json({ ok: true });
+});
 
-export default router
+export default router;
