@@ -67,7 +67,7 @@ export const loginUser = async (req, res, next) => {
     }
 
     // compare password
-    const isMatch = await user.comparePassword(password); // comparePassword is a method defined in the userSchema
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
