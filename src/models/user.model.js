@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 6,
+    minlength: 8,
     select: false,
   },
 
@@ -40,18 +40,27 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-  //  PASSWORD HASHING
+/* =======================
+   PASSWORD HASHING
+======================= */
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) {
+    return;
+  }
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    // next();
+  } catch (err) {
+    // next(err);
+    throw(err)
+  }
 });
 
-  //  PASSWORD COMPARISON
-
+/* =======================
+   PASSWORD COMPARISON
+======================= */
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

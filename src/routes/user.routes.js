@@ -1,14 +1,14 @@
 import express from "express";
 import { protect, authorize } from "../middleware/auth.middleware.js";
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.get("/profile", protect, (req, res) => {
+userRouter.get("/profile", protect, (req, res) => {
   res.json(req.user);
 });
 
-router.get("/admin-only", protect, authorize("admin"), (req, res) => {
+userRouter.get("/admin-only", protect, authorize("admin"), (req, res) => {
   res.json({ message: "Welcome Admin" });
 });
 
-export default router;
+export default userRouter;

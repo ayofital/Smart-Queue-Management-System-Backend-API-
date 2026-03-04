@@ -15,15 +15,15 @@ const branchSchema = new mongoose.Schema(
     },
 
     isActive: {
-      type: boolean,
-      index: true,
+      type: Boolean,
+      // index: true,
       default: true,
     },
   },
   { timestamps: true },
 );
 
-branchSchema.index({ name: 1 }, { unique: true });
+branchSchema.index({ name: 1, isActive: 1 }, { unique: true });
 
 const Branch = mongoose.model("Branch", branchSchema);
 export default Branch;
