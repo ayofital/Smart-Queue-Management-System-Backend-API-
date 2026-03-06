@@ -4,14 +4,25 @@ const branchSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Branch name is required"],
       unique: true,
       trim: true,
     },
 
     location: {
       type: String,
-      required: true,
+      required: [true, "Branch location is required"],
+      trim: true,
+    },
+
+    phone: {
+      type: String,
+      trim: true,
+    },
+
+    email:{
+      type: String,
+      trim: true,
     },
 
     isActive: {
