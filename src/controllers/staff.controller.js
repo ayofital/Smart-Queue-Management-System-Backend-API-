@@ -108,3 +108,4 @@ export const deactivateStaff = async(req, res, next) => {
         next(error);
     }
 };
+
