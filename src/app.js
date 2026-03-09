@@ -2,29 +2,25 @@ import express, { json, urlencoded } from "express";
 import routes from "./routes/index.js";
 import errorHandler from "./middleware/error.middleware.js";
 import notFoundHandler from "./middleware/notFound.js";
-import auth_router from "./routes/auth.routes.js";
-import branch_router from "./routes/branch.route.js";
-// import authRoutes from "./routes/auth.routes.js"
+import authRouter from "./routes/auth.routes.js";
+import branchRouter from "./routes/branch.route.js";
 import userRouter from "./routes/user.routes.js";
 
 const app = express();
 
+// Body parser middleware
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-/* ==============
-Routes Handlers
-============== */
+// routes handlers
+
 app.use("/", routes);
-app.use("/api/auth/", auth_router);
-app.use("/api/branches/", branch_router);
-// app.use("/api/auth", authRoutes)
-app.use("/api/users", userRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/branches", branchRouter);
+app.use("/api/users", userRouter);
 
-/* =======================
-Error Handling Middleware
-======================= */
-app.use(notFoundHandler); // Route not found handler
-app.use(errorHandler); // Global Error Handler must be last
+// error handling middleware
 
+app.use(notFoundHandler); 
+app.use(errorHandler); 
 export default app;
