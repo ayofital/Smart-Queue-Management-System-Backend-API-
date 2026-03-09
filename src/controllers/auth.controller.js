@@ -1,15 +1,11 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
-// user registration
+// REGISTER USER
+
 export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-
-    // Express validator validates inputs
-    // if (!name || !email || !password) {
-    //   return res.status(400).json({ message: "All fields are required" });
-    // }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -17,24 +13,22 @@ export const registerUser = async (req, res, next) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create user document
+    // Password will be hashed automatically by the pre-save hook in the model
     const user = await User.create({
       name,
       email,
       password,
     });
 
-    // generate JWT token
+    // Generate JWT token
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }, // token valid for 1 day
+      { expiresIn: "4d" } 
     );
 
-    // return response without exposing password
+    // Return user data without exposing password
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -46,11 +40,12 @@ export const registerUser = async (req, res, next) => {
       token,
     });
   } catch (error) {
-    next(error);
+    next(error); 
   }
 };
 
-// lOGIN USER
+// LOGIN USER
+
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -60,26 +55,26 @@ export const loginUser = async (req, res, next) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // find user and include password explicitly
+    // Find user and include password explicitly
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // compare password
-    const isMatch = await user.comparePassword(password); // comparePassword is a method defined in the userSchema
+    // Compare password using the model's comparePassword method
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // generate JWT
+    // Generate JWT token
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN },
+      { expiresIn: "1d" }
     );
 
-    // return response
+    // Return user data without exposing password
     res.status(200).json({
       message: "Login successful",
       user: {
@@ -91,6 +86,6 @@ export const loginUser = async (req, res, next) => {
       token,
     });
   } catch (error) {
-    next(error);
+    next(error); 
   }
 };
