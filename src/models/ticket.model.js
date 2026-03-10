@@ -23,25 +23,35 @@ const ticketSchema = new mongoose.Schema(
       index: true,
     },
 
+    ticketNumber: {
+      type: Number,
+      required: true,
+    },
+
     status: {
       type: String,
       enum: ["waiting", "called", "skipped", "cancelled", "completed"],
       default: "waiting",
       index: true,
     },
+
     calledAt: Date,
     completedAt: Date,
     cancelledAt: Date,
   },
-  { timestamp: true },
+  { timestamps: true },
 );
 
-ticketSchema.index(
-  { queue: 1, ticketNumber: 1, status: 1 },
-  { unique: true },
-  // { unique: true, partialFilterExpression: { status: ["waiting", "called"] } },
-);
 ticketSchema.index({ queue: 1, ticketNumber: 1 }, { unique: true });
 
+ticketSchema.index(
+  { user: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { status: { $in: ["waiting", "called"] } },
+  },
+);
+
 const Ticket = mongoose.model("Ticket", ticketSchema);
+
 export default Ticket;

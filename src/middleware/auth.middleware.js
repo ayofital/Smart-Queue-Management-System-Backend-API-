@@ -43,9 +43,7 @@ export const protect = async (req, res, next) => {
   }
 };
 
-
 // authorization middleware (role-based)
-
 
 export const authorize = (...roles) => {
   return (req, res, next) => {
