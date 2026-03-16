@@ -10,7 +10,7 @@ export const createStaff = async (req, res, next) => {
 
         const { name, email, password, role, branch } = req.body;
 
-        const existingStaff = await staff.findOne({ email });
+        const existingStaff = await Staff.findOne({ email });
         if (existingStaff) {
             const error = new Error("Staff with this email already exists");
             error.statusCode = 400;
@@ -58,7 +58,7 @@ export const getAllStaff = async (req, res, next) => {
 export const assignStaffToBranch = async (req, res, next) => {
     try{
         const errors = validationResult(req);
-        if (!error.isEmpty()){
+        if (!errors.isEmpty()){
             return res.status(400).json({ errors: errors.array() });
         }
 

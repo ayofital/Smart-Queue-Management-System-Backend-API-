@@ -44,6 +44,8 @@ const staffSchema = new mongoose.Schema(
  { timestamps: true }
 );
 
+staffSchema.index({ email: 1 }, { unique: true });
+
 // Hash password before saving
 staffSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
@@ -53,7 +55,7 @@ staffSchema.pre("save", async function (next) {
 
 // Compare password method 
 staffSchema.methods.comparePassword = async function (candidatepassword) {
-    return awaitbcrypt.compare(candidatepassword, this.password);
+    return await bcrypt.compare(candidatepassword, this.password);
 };
 
-export default mongoose.model("staff", staffSchema);
+export default mongoose.model("Staff", staffSchema);

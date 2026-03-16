@@ -14,12 +14,12 @@ import userRouter from "./routes/user.routes.js";
 
 const app = express();
 
+// Body parser middleware
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-/* ==============
-Routes Handlers
-============== */
+// routes handlers
+
 app.use("/", routes);
 app.use("/api/auth/", auth_router);
 app.use("/api/branches/", branch_router);
@@ -29,10 +29,9 @@ app.use("/api/staff", staff_router);
 app.use("/api/queues", queue_router);
 app.use("/api/counters", counter_router);
 
-/* =======================
-Error Handling Middleware
-======================= */
-app.use(notFoundHandler); // Route not found handler
-app.use(errorHandler); // Global Error Handler must be last
+// error handling middleware
+
+app.use(notFoundHandler); 
+app.use(errorHandler); 
 
 export default app;
