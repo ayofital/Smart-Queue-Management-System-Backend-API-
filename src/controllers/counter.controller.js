@@ -13,8 +13,8 @@ export const createCounter = async (req, res, next) => {
     const { label, branch } = req.body;
 
     const branchExists = await Branch.findById(branch);
-    if (!branchExists) {
-      const error = new Error("Branch not found");
+    if (branchExists) {
+      const error = new Error("Branch already exists");
       error.statusCode = 404;
       return next(error);
     }
@@ -29,7 +29,7 @@ export const createCounter = async (req, res, next) => {
   }
 };
 
-export const getBranchCounters = async (req, res, next) => {
+export const getCounterById = async (req, res, next) => {
   try {
     const { branchId } = req.params;
 
@@ -63,8 +63,8 @@ export const assignStaffToCounter = async (req, res, next) => {
     const { id } = req.params;
 
     const staffExits = await Staff.findById(staffId);
-    if (!staffExits) {
-      const error = new Error("Staff not found");
+    if (staffExits) {
+      const error = new Error("Staff ealready exists");
       error.statusCode = 404;
       return next(error);
     }

@@ -37,18 +37,18 @@ export const createStaff = async (req, res, next) => {
 
 export const getAllStaff = async (req, res, next) => {
     try {
-        const staff = await Staff.find({ isActive: true}).populate(
+        const staffs = await Staff.find({ isActive: true}).populate(
             "branch",
             "name location"
         );
 
-        if (!staff || staff.length === 0) {
+        if (!staffs || staffs.length === 0) {
             const error = new Error("No staff found");
             error.statusCode = 404;
             return next(error);
         }
 
-        res.status(200).json({ data: staff });
+        res.status(200).json({ data: staffs });
     }  catch (error) {
         next(error);
     }

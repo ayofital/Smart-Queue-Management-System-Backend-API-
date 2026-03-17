@@ -44,7 +44,7 @@ const staffSchema = new mongoose.Schema(
  { timestamps: true }
 );
 
-staffSchema.index({ email: 1 }, { unique: true });
+// staffSchema.index({ email: 1 }, { unique: true });
 
 // Hash password before saving
 staffSchema.pre("save", async function (next) {

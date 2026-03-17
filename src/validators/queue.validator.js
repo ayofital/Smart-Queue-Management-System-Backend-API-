@@ -23,7 +23,7 @@ export const createQueueValidator = [
     .toUpperCase(),
 ];
 
-export const updateQueueVaidator = [
+export const updateQueueValidator = [
     body("serviceName")
     .optional()
     .trim()

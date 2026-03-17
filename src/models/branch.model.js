@@ -14,16 +14,16 @@ const branchSchema = new mongoose.Schema(
       required: [true, "Branch location is required"],
       trim: true,
     },
+    // 9022551093
+    // phone: {
+    //   type: String,
+    //   trim: true,
+    // },
 
-    phone: {
-      type: String,
-      trim: true,
-    },
-
-    email:{
-      type: String,
-      trim: true,
-    },
+    // email:{
+    //   type: String,
+    //   trim: true,
+    // },
 
     isActive: {
       type: Boolean,

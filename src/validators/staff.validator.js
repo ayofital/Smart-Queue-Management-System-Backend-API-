@@ -10,7 +10,7 @@ export const createStaffValidator = [
 
     body("email")
     .trim()
-    .noEmpty()
+    .notEmpty()
     .withMessage("Email is required")
     .isEmail()
     .withMessage("Please provide a valid email")

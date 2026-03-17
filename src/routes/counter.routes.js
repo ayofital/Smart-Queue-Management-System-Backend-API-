@@ -1,19 +1,38 @@
 import express from "express";
 import {
   createCounter,
-  getBranchCounters,
+  // getBranchCounters,
   assignStaffToCounter,
   closeCounter,
+  getCounterById,
 } from "../controllers/counter.controller.js";
-import { protect, authorize } from "../middleware/auth.middleware.js";
+import { protect, authorize } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+const counterRouter = express.Router();
 
-router.use(protect);
+// Admin creates a counter
+counterRouter.post("/", protect, authorize("admin"), createCounter);
 
-router.post("/", authorize("admin"), createCounter);
-router.get("/:branchId", getBranchCounters);
-router.put("/:id/assign", authorize("admin"), assignStaffToCounter);
-router.put("/:id/close", closeCounter);
+// Get all counters for a branch
+// counterRouter.get(
+//   "/branch/:branchId",
+//   protect,
+//   authorize("admin", "staff"),
+//   getBranchCounters,
+// );
 
-export default router;
+// Get a single counter
+counterRouter.get("/:id", protect, authorize("admin", "staff"), getCounterById);
+
+// Assign a staff to a counter
+counterRouter.patch(
+  "/:id/assign-staff",
+  protect,
+  authorize("admin"),
+  assignStaffToCounter,
+);
+
+// Close a counter
+counterRouter.patch("/:id/close", protect, authorize("staff"), closeCounter);
+
+export default counterRouter;

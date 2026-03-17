@@ -6,7 +6,7 @@ import {
   deactivateStaff,
 } from "../controllers/staff.controller.js";
 import { createStaffValidator, assignStaffValidator } from "../validators/staff.validator.js";
-import { protect, authorize } from "../middleware/auth.middleware.js";
+import { protect, authorize } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
