@@ -14,7 +14,6 @@ export const registerUser = async (req, res, next) => {
     }
 
     // Create user document
-    // Password will be hashed automatically by the pre-save hook in the model
     const user = await User.create({
       name,
       email,
