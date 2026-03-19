@@ -22,17 +22,17 @@ counterRouter.post("/", protect, authorize("admin"), createCounter);
 // );
 
 // Get a single counter
-counterRouter.get("/:id", protect, authorize("admin", "staff"), getCounterById);
+counterRouter.get("/:branchId", protect, authorize("admin", "staff"), getCounterById);
 
 // Assign a staff to a counter
 counterRouter.patch(
-  "/:id/assign-staff",
+  "/:counterId/assign-staff",
   protect,
   authorize("admin"),
   assignStaffToCounter,
 );
 
 // Close a counter
-counterRouter.patch("/:id/close", protect, authorize("staff"), closeCounter);
+counterRouter.patch("/:counterId/close", protect, authorize("staff"), closeCounter);
 
 export default counterRouter;

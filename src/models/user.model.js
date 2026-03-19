@@ -26,18 +26,18 @@ const userSchema = new mongoose.Schema({
 
   role: {
     type: String,
-    enum: ["customer", "admin", "staff"],
-    default: "customer",
+    enum: ["customer", "admin", ],
+    // default: "customer",
     index: true,
   },
 
-  branch: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Branch",
-    required: function () {
-      return this.role === "staff";
-    }
-  }
+  // branch: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Branch",
+  //   required: function () {
+  //     return this.role === "staff";
+  //   }
+  // }
 }, { timestamps: true });
 
 /* =======================

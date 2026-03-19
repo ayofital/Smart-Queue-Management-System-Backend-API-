@@ -13,8 +13,8 @@ export const createCounter = async (req, res, next) => {
     const { label, branch } = req.body;
 
     const branchExists = await Branch.findById(branch);
-    if (branchExists) {
-      const error = new Error("Branch already exists");
+    if (!branchExists) {
+      const error = new Error("Branch not found.");
       error.statusCode = 404;
       return next(error);
     }
@@ -32,10 +32,9 @@ export const createCounter = async (req, res, next) => {
 export const getCounterById = async (req, res, next) => {
   try {
     const { branchId } = req.params;
+    // console.log("BranchId:", branchId)
 
     const counters = await Counter.find({ branch: branchId })
-      .populate("branch", "name location")
-      .populate("assignedStaff", "name email");
 
     // if (!counters || counters.length === 0){
     //     const error = new Error("No counters found for this branch");
@@ -52,6 +51,7 @@ export const getCounterById = async (req, res, next) => {
   }
 };
 
+
 export const assignStaffToCounter = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -60,11 +60,11 @@ export const assignStaffToCounter = async (req, res, next) => {
     }
 
     const { staffId } = req.body;
-    const { id } = req.params;
+    const { counterId } = req.params;
 
     const staffExits = await Staff.findById(staffId);
-    if (staffExits) {
-      const error = new Error("Staff ealready exists");
+    if (!staffExits) {
+      const error = new Error("Staff not found.");
       error.statusCode = 404;
       return next(error);
     }
@@ -80,7 +80,7 @@ export const assignStaffToCounter = async (req, res, next) => {
     }
 
     const counter = await Counter.findByIdAndUpdate(
-      id,
+      counterId,
       { assignedStaff: staffId, isOpen: true },
       { new: true },
     ).populate("assignedStaff", "name email");
@@ -102,10 +102,10 @@ export const assignStaffToCounter = async (req, res, next) => {
 
 export const closeCounter = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { counterId } = req.params;
 
     const counter = await Counter.findByIdAndUpdate(
-      id,
+      counterId,
       { isOpen: false, assignedStaff: null },
       { new: true },
     );

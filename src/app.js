@@ -8,6 +8,7 @@ import userRouter from "./routes/user.routes.js";
 import staff_router from "./routes/staff.routes.js";
 import queue_router from "./routes/queue.routes.js";
 import counter_router from "./routes/counter.routes.js";
+import ticketRouter from "./routes/ticket.routes.js";
 
 const app = express();
 
@@ -18,13 +19,14 @@ app.use(urlencoded({ extended: true }));
 // routes handlers
 
 app.use("/", routes);
-app.use("/api/auth/", auth_router);
+app.use("/api/auth", auth_router);
 app.use("/api/branches/", branch_router);
 // app.use("/api/auth", authRoutes)
 app.use("/api/users", userRouter);
 app.use("/api/staff", staff_router);
 app.use("/api/queues", queue_router);
 app.use("/api/counters", counter_router);
+app.use("/api/tickets", ticketRouter)
 
 // error handling middleware
 

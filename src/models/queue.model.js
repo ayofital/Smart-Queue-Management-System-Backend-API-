@@ -14,7 +14,7 @@ const queueSchema = new mongoose.Schema({
     trim:true
   },
 
-  lastTickerNumber: {
+  lastTicketNumber: {
     type:Number,
     default:0,
   },

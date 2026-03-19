@@ -15,7 +15,7 @@ router.use(authorize("admin"));
 
 router.post("/", createStaffValidator, createStaff);
 router.get("/", getAllStaff);
-router.put("/:id/assign", assignStaffValidator, assignStaffToBranch);
-router.delete("/:id", deactivateStaff);
+router.patch("/:staffId/assign", assignStaffValidator, assignStaffToBranch);
+router.delete("/:staffId", deactivateStaff);
 
 export default router;

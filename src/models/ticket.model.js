@@ -45,7 +45,6 @@ const ticketSchema = new mongoose.Schema(
 ticketSchema.index({ queue: 1, ticketNumber: 1 }, { unique: true });
 
 ticketSchema.index(
-  { user: 1 },
   {
     unique: true,
     partialFilterExpression: { status: { $in: ["waiting", "called"] } },

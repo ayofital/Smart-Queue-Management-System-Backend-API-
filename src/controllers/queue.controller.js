@@ -10,7 +10,7 @@ export const createQueue = async (req, res, next) => {
             return res.status(400).json({ error: errors.array() });
         }
 
-        const { serviceName, branch, prefix } = req.body;
+        const { serviceName, branch } = req.body;
 
         const branchExists = await Branch.findbyId(branch);
         if (!branchExists) {
@@ -19,7 +19,7 @@ export const createQueue = async (req, res, next) => {
             return next(error);
         }
 
-        const queue = await Queue.create({ serviceName, branch, prefix });
+        const queue = await Queue.create({ serviceName, branch });
 
         res.status(201).json({
             message: "Queue created successfully",
