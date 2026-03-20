@@ -19,19 +19,19 @@ export const createBranch = async (req, res, next) => {
   }
 };
 
-export const getBranches = async (req, res, next) => {
+export const getAllBranches = async (req, res, next) => {
   try {
     const branches = await Branch.find({ isActive: true }).sort({
       createdAt: -1,
     });
 
-    if (!branches || branches.length === 0) {
-      const error = new Error("No branch found.");
-      error.statusCode = 404;
-      return next(error);
-    }
+    // if (!branches || branches.length === 0) {
+    //   const error = new Error("No branch found.");
+    //   error.statusCode = 404;
+    //   return next(error);
+    // }
 
-    res.status(200).json({ data: branches });
+    res.status(200).json({ count: branches.length, data: branches });
   } catch (error) {
     next(error);
   }

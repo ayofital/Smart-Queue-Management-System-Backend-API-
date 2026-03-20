@@ -22,7 +22,7 @@ const counterSchema = new mongoose.Schema(
 
     isOpen: {
       type: Boolean,
-      default: false, // closed until staff opens it
+      default: true,
     },
   },
   { timestamps: true },
