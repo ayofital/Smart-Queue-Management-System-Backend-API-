@@ -19,6 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes handlers
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to the Smart Queue System API ",
+  });
+});
+
 app.use("/", routes);
 app.use("/api/auth", auth_router);
 app.use("/api/branches/", branch_router);
