@@ -1,19 +1,30 @@
-import transporter from "../config/email.js";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const sendEmail = async ({ to, subject, text, html }) => {
+// Create transporter
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT),
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+// Function to send email
+export const sendEmail = async ({ to, subject, html }) => {
   try {
     const info = await transporter.sendMail({
-      from: `"Job Tracker" <${process.env.EMAIL_USER}>`, // sender
+      from: process.env.SMTP_FROM,
       to,
       subject,
-      text,
       html,
     });
-
-    console.log("Email sent: %s", info.messageId);
-    return info;
+    console.log("Email sent:", info.messageId);
   } catch (error) {
-    console.error("FULL EMAIL ERROR:", error);
+    console.error("Email failed:", error);
     throw error;
   }
 };

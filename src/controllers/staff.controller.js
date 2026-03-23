@@ -1,5 +1,6 @@
 import Staff from "../models/staff.model.js";
 import { validationResult } from "express-validator";
+import { sendEmail } from "../services/email.service.js";
 
 export const createStaff = async (req, res, next) => {
   try {
@@ -8,7 +9,7 @@ export const createStaff = async (req, res, next) => {
       return res.status(400).json({ error: errors.array() });
     }
 
-    const { name, email, password, role,  } = req.body;
+    const { name, email, password, role } = req.body;
 
     const existingStaff = await Staff.findOne({ email });
     if (existingStaff) {
@@ -17,7 +18,17 @@ export const createStaff = async (req, res, next) => {
       return next(error);
     }
 
-    const staff = await Staff.create({ name, email, password, role,  });
+    const staff = await Staff.create({ name, email, password, role });
+
+    // Send Email to newly created staff account
+    await sendEmail({
+      to: staff.email,
+      subject: "Staff Account Created",
+      html: `<h2>Welcome to the Queue System</h2>
+      <p>Your staff account has been created.</p>
+      <p><b>Email:</b>${staff.email}</p>
+      <p><b>Role:</b>${staff.role}</p>`,
+    });
 
     res.status(201).json({
       message: "Staff account created successfully",

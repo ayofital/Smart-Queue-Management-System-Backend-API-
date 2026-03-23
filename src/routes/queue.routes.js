@@ -1,7 +1,7 @@
 import express from "express";
 import {
   createQueue,
-  // getBranchQueues,
+  getBranchQueues,
   updateQueue,
   deleteQueue,
 } from "../controllers/queue.controller.js";
@@ -13,7 +13,7 @@ const router = express.Router();
 router.use(protect);
 
 router.post("/", authorize("admin"), createQueueValidator, createQueue);
-// router.get("/:branchId", getBranchQueues);
+router.get("/", getBranchQueues);
 router.put("/:id", authorize("admin"), updateQueueValidator, updateQueue);
 router.delete("/:id", authorize("admin"), deleteQueue);
 

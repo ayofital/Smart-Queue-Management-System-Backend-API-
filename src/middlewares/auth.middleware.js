@@ -33,6 +33,7 @@ export const protect = async (req, res, next) => {
 
     // attach user to request
     req.user = user;
+    req.role = user.role;
 
     next();
   } catch (error) {
@@ -55,7 +56,7 @@ export const authorize = (...roles) => {
       });
     }
 
-    if (!roles.includes(req.user.role)) {
+    if (!roles.includes(req.role)) {
       return res.status(403).json({
         success: false,
         message: "Access denied: insufficient permissions",
